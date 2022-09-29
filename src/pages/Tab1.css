@@ -1,0 +1,11 @@
+.alert-wrapper.sc-ion-alert-md {
+  background-color: rgb(176, 161, 170);
+}
+.alert-title.sc-ion-alert-md {
+  color: green;
+  font-weight: bold;
+}
+.alert-button.sc-ion-alert-md {
+  background-color: aquamarine;
+  color: black;
+}

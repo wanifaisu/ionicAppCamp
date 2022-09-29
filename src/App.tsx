@@ -33,14 +33,17 @@ import "@ionic/react/css/display.css";
 
 /* Theme variables */
 import "./theme/variables.css";
+import UserPage from "./pages/UserPage";
 
 setupIonicReact();
 
-const App: React.FC = () => (
+const App: React.FC = ({ match }: any) => (
   <IonApp>
     <IonReactRouter>
       <IonTabs>
         <IonRouterOutlet>
+          <Route exact path="/userprofile" component={UserPage} />
+
           <Route exact path="/tab1">
             <Tab1 />
           </Route>

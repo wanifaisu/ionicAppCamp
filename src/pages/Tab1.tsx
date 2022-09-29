@@ -1,62 +1,108 @@
+import React, { useState } from "react";
 import {
+  IonButton,
   IonButtons,
   IonCard,
+  IonCol,
   IonContent,
+  IonGrid,
   IonHeader,
+  IonImg,
+  IonInput,
+  IonItem,
   IonMenu,
   IonMenuButton,
   IonPage,
+  IonRow,
   IonTitle,
   IonToolbar,
+  useIonAlert,
+  useIonToast,
 } from "@ionic/react";
+
+import { globe } from "ionicons/icons";
 import ExploreContainer from "../components/ExploreContainer";
 import "./Tab1.css";
-
-const Tab1: React.FC = () => {
+import { GridExample } from "../components/GridIonic";
+interface personDetails {
+  name: string;
+  // webviewPath?: string;
+}
+const initioalState = {
+  name: "",
+};
+function Tab1() {
+  const [presentAlert] = useIonAlert();
+  const [presentToast] = useIonToast();
+  const [personDetails, setPersonDetails] = useState<any>();
+  const [itemDetailsArr, setItemDetailsArr] = useState<any>([]);
+  const handleSubmit = (data: any) => {
+    let newData = [...itemDetailsArr];
+    newData.push(data);
+    setItemDetailsArr(newData);
+  };
   return (
     <IonPage>
-      <IonMenu contentId="main-content">
-        <IonHeader>
-          <IonToolbar>
-            <IonTitle>ChatApp</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        <IonContent className="ion-padding">
-          <IonToolbar>
-            <IonTitle> Messages</IonTitle>
-          </IonToolbar>
-          <IonToolbar>
-            <IonTitle> Chats</IonTitle>
-          </IonToolbar>
-        </IonContent>
-      </IonMenu>
-      <IonPage id="main-content">
-        <IonHeader>
-          <IonToolbar>
-            <IonButtons slot="start">
-              <IonMenuButton></IonMenuButton>
-            </IonButtons>
-            <IonTitle></IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        <IonCard style={{ marginTop: "1rem" }}>
-          <IonHeader>
-            <IonToolbar>
-              <IonTitle>Home page</IonTitle>
-            </IonToolbar>
-          </IonHeader>
-          <IonContent fullscreen>
-            <IonHeader collapse="condense">
-              <IonToolbar>
-                <IonTitle size="large"></IonTitle>
-              </IonToolbar>
-            </IonHeader>
-            <ExploreContainer name="Home page" />
-          </IonContent>
-        </IonCard>
-      </IonPage>
+      <IonItem>
+        <IonButton
+          fill="outline"
+          slot="start"
+          onClick={() =>
+            presentAlert({
+              header: "Please enter your info",
+
+              inputs: [
+                {
+                  name: "name",
+                  placeholder: "Enter Name",
+                },
+                {
+                  type: "number",
+                  name: "age",
+                  placeholder: "Enter Age",
+                },
+                {
+                  name: "mobile",
+                  type: "number",
+                  placeholder: "Enter Mobile Number",
+                  attributes: {
+                    maxlength: 8,
+                  },
+                },
+                {
+                  name: "address",
+                  type: "textarea",
+                  placeholder: "Enter Address ",
+                },
+              ],
+              buttons: [
+                {
+                  text: "Cancel",
+                  role: "cancel",
+                  handler: (data) => console.log("Cancel clicked"),
+                },
+                {
+                  text: "Submit",
+                  role: "submit",
+                  handler: (data) => {
+                    handleSubmit(data);
+                    presentToast({
+                      message: "User added Successfully!",
+                      duration: 1500,
+                      icon: globe,
+                    });
+                  },
+                },
+              ],
+            })
+          }
+        >
+          Add User
+        </IonButton>
+      </IonItem>
+      <GridExample itemDetailsArr={itemDetailsArr} />
     </IonPage>
   );
-};
+}
 
 export default Tab1;
